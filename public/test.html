@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Connection Test</title>
+</head>
+<body>
+    <h1>Transaction API Test</h1>
+    
+    <div id="status" style="padding: 10px; margin: 10px 0; background: #f0f0f0;"></div>
+    
+    <button onclick="testConnection()">Test API Connection</button>
+    <button onclick="createTestTransaction()">Create Test Transaction</button>
+    
+    <div id="result" style="margin-top: 20px; padding: 10px; background: #f9f9f9;"></div>
+
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3001/api/v1' 
+            : `http://${window.location.hostname}:3001/api/v1`;
+        
+        document.getElementById('status').innerHTML = `
+            <strong>Connection Info:</strong><br>
+            Hostname: ${window.location.hostname}<br>
+            API URL: ${API_BASE}<br>
+            User Agent: ${navigator.userAgent}
+        `;
+
+        async function testConnection() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Testing connection...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/accounts/balance`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result.innerHTML = `<span style="color: green;">✓ Connection successful!</span><br>Response: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.innerHTML = `<span style="color: red;">✗ Connection failed!</span><br>Status: ${response.status}<br>Response: ${await response.text()}`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span style="color: red;">✗ Network error!</span><br>Error: ${error.message}`;
+            }
+        }
+
+        async function createTestTransaction() {
+            const result = document.getElementById('result');
+            result.innerHTML = 'Creating test transaction...';
+            
+            const testTransaction = {
+                name: 'Test Transaction',
+                amount: 100,
+                transactionType: 'Credit',
+                description: 'Test from mobile/network device',
+                modeOfPayment: 'Cash',
+                category: 'Other'
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/accounts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testTransaction)
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    result.innerHTML = `<span style="color: green;">✓ Transaction created successfully!</span><br>Response: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    const errorData = await response.text();
+                    result.innerHTML = `<span style="color: red;">✗ Transaction failed!</span><br>Status: ${response.status}<br>Error: ${errorData}`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span style="color: red;">✗ Network error!</span><br>Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
