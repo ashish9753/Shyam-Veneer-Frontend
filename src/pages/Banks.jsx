@@ -187,8 +187,8 @@ const Banks = () => {
                                 </svg>
                             </div>
                             <div>
-                                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Bank Accounts</h1>
-                                <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+                                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Bank Management</h1>
+                                <p className="text-amber-200 mt-1 text-sm">Shyam Veneer - Premium Plywood</p>
                             </div>
                         </div>
                         <button

@@ -172,7 +172,7 @@ const Login = () => {
             {isLogin ? 'Welcome Back' : 'Join Us'}
           </h1>
           <p className="text-amber-700 text-lg font-medium">
-            Annapurna Veneer - Premium Plywood Solutions
+            Shyam Veneer - Premium Plywood Solutions
           </p>
           <p className="text-amber-600 mt-1">
             {isLogin ? 'Sign in to your account' : 'Create your account today'}

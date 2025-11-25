@@ -312,8 +312,8 @@ function Buy() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Purchase Orders</h1>
-                <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Buy Dashboard</h1>
+                <p className="text-amber-200 mt-1 text-sm">Shyam Veneer - Premium Plywood</p>
               </div>
             </div>
             <div className="space-x-3">

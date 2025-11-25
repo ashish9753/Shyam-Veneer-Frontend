@@ -46,11 +46,11 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center group">
               <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center shadow-xl border-4 border-amber-300 transform group-hover:scale-110 transition-transform">
-                <span className="text-white font-bold text-2xl">AV</span>
+                <span className="text-white font-bold text-2xl">SV</span>
               </div>
               <div className="ml-4">
                 <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow-lg">
-                  Annapurna Veneer
+                  Shyam Veneer
                 </h1>
                 <p className="text-sm text-amber-200 font-bold">Premium Plywood Solutions</p>
               </div>

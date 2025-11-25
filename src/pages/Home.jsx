@@ -101,7 +101,7 @@ const Home = () => {
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-              Annapurna Veneer
+              Shyam Veneer
             </h1>
             <p className="text-xl md:text-2xl mb-4 text-amber-100">
               Premium Plywood Raw Materials Today
