@@ -102,12 +102,12 @@ const Home = () => {
       {/* Hero Section - Modern & Clean */}
       <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
         {/* Background Pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-600 via-amber-500 to-yellow-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-700 via-orange-800 to-amber-900"></div>
         <div className="absolute inset-0 opacity-10 animate-pulse" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"%/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
         
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto animate-fadeInUp">
           <div className="inline-block mb-6 animate-bounce-slow">
-            <span className="bg-white/90 backdrop-blur-md text-amber-900 px-6 py-2.5 rounded-full text-sm font-semibold border border-white shadow-lg">
+            <span className="bg-amber-100 backdrop-blur-md text-amber-900 px-6 py-2.5 rounded-full text-sm font-semibold border border-amber-300 shadow-lg">
               ✨ Leading Plywood & Furniture Supplier in Nepal
             </span>
           </div>
@@ -116,25 +116,25 @@ const Home = () => {
             Shyam Veneer
           </h1>
           
-          <p className="text-xl md:text-3xl text-white mb-4 font-light drop-shadow-lg">
+          <p className="text-xl md:text-3xl text-amber-50 mb-4 font-light drop-shadow-lg">
             Premium Plywood, Furniture & Wood Solutions
           </p>
           
-          <p className="text-lg md:text-xl text-amber-50 mb-10 max-w-2xl mx-auto drop-shadow-md">
+          <p className="text-lg md:text-xl text-amber-100 mb-10 max-w-2xl mx-auto drop-shadow-md">
             Quality Products • Competitive Prices • Fast Delivery
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeInUp animation-delay-300">
             <Link
               to="/buy"
-              className="group bg-white text-amber-900 px-8 py-4 rounded-xl font-bold shadow-2xl hover:shadow-white/50 transform hover:scale-110 transition-all duration-300 flex items-center gap-2 hover:bg-amber-50"
+              className="group bg-amber-100 text-amber-900 px-8 py-4 rounded-xl font-bold shadow-2xl hover:shadow-amber-300/50 transform hover:scale-110 transition-all duration-300 flex items-center gap-2 hover:bg-amber-200"
             >
               <span>Browse Products</span>
               <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
             </Link>
             <a
               href="tel:+977-9860218415"
-              className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-orange-600 transition-all duration-300 transform hover:scale-105"
+              className="border-2 border-amber-100 text-amber-50 px-8 py-4 rounded-xl font-bold hover:bg-amber-100 hover:text-amber-900 transition-all duration-300 transform hover:scale-105"
             >
               📞 Call: +977-9860218415
             </a>
@@ -212,35 +212,35 @@ const Home = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-orange-500 via-amber-400 to-yellow-400 text-white relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-amber-700 via-orange-700 to-amber-800 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20 animate-pulse" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z" fill="%23ffffff" fill-opacity="1" fill-rule="evenodd"/%3E%3C/svg%3E")'}}></div>
         
         <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg animate-fadeInUp">Ready to Order?</h2>
-          <p className="text-xl md:text-2xl text-white mb-10 font-light drop-shadow-md animate-fadeInUp animation-delay-200">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 drop-shadow-lg animate-fadeInUp text-white">Ready to Order?</h2>
+          <p className="text-xl md:text-2xl text-amber-50 mb-10 font-light drop-shadow-md animate-fadeInUp animation-delay-200">
             Contact us today for bulk orders and special pricing
           </p>
           
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-center animate-fadeInUp animation-delay-400">
             <a
               href="tel:+977-9860218415"
-              className="group bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center gap-3 hover:shadow-green-400/50"
+              className="group bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-bold shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center gap-3 hover:shadow-green-500/50"
             >
               <span className="text-2xl group-hover:animate-bounce">📞</span>
               <span>Call: +977-9860218415</span>
             </a>
             <a
               href="mailto:annapurnaveneerudhyog@gmail.com"
-              className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-orange-600 transition-all duration-300 flex items-center gap-3 transform hover:scale-105"
+              className="border-2 border-amber-100 text-amber-50 px-8 py-4 rounded-xl font-bold hover:bg-amber-100 hover:text-amber-900 transition-all duration-300 flex items-center gap-3 transform hover:scale-105"
             >
               <span className="text-2xl">✉️</span>
               <span>Email Us</span>
             </a>
           </div>
 
-          <div className="mt-12 pt-12 border-t border-white/30 animate-fadeInUp animation-delay-600">
-            <p className="text-white text-lg mb-3 drop-shadow-md">Visit Our Location</p>
-            <p className="text-white font-semibold text-xl drop-shadow-lg">BirtaMode-3, Jhapa, Nepal</p>
+          <div className="mt-12 pt-12 border-t border-amber-300/30 animate-fadeInUp animation-delay-600">
+            <p className="text-amber-100 text-lg mb-3 drop-shadow-md">Visit Our Location</p>
+            <p className="text-amber-50 font-semibold text-xl drop-shadow-lg">BirtaMode-3, Jhapa, Nepal</p>
           </div>
         </div>
       </section>
