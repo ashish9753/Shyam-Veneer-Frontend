@@ -260,14 +260,6 @@ const Home = () => {
             category="Furniture"
             direction="right"
           />
-
-          {/* Other Products Marquee */}
-          <MarqueeSection 
-            title="🔧 Wood Accessories & Supplies" 
-            products={otherProducts} 
-            category="Accessories"
-            direction="left"
-          />
         </div>
       </section>
 
