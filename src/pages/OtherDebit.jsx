@@ -52,7 +52,6 @@ function OtherDebit() {
 
   const [formData, setFormData] = useState({
     Name: '',
-    TransactionName: '',
     Amount: '',
     ModeofPayment: '',
     Category: 'Other',
@@ -185,7 +184,6 @@ function OtherDebit() {
       setShowAddModal(false);
       setFormData({
         Name: '',
-        TransactionName: '',
         Amount: '',
         ModeofPayment: '',
         Category: 'Other',
@@ -435,7 +433,6 @@ function OtherDebit() {
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Order#</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Transaction Name</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Transaction Type</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Amount</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Category</th>
@@ -448,7 +445,7 @@ function OtherDebit() {
             <tbody className="bg-white divide-y divide-gray-200">
               {Object.keys(groupTransactionsByName()).length === 0 ? (
                 <tr>
-                  <td colSpan="10" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="9" className="px-6 py-4 text-center text-gray-500">
                     No debit transactions found
                   </td>
                 </tr>
@@ -477,7 +474,6 @@ function OtherDebit() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{name}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Debit</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{totalAmount}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
@@ -505,7 +501,6 @@ function OtherDebit() {
                           <tr key={transaction._id} className="hover:bg-gray-50 bg-white">
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 pl-12">{transaction.OrderNumber}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">└─ {transaction.Name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.TransactionName}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.TransactionType}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{transaction.Amount}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.Category}</td>
@@ -581,17 +576,6 @@ function OtherDebit() {
                     ))}
                   </div>
                 )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Transaction Name *</label>
-                <input
-                  type="text"
-                  name="TransactionName"
-                  value={formData.TransactionName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
@@ -786,7 +770,6 @@ function OtherDebit() {
               <div className="grid grid-cols-2 gap-4">
                 <div><span className="font-medium">Name:</span> {selectedTransaction.Name}</div>
                 <div><span className="font-medium">Order Number:</span> {selectedTransaction.OrderNumber}</div>
-                <div><span className="font-medium">Transaction:</span> {selectedTransaction.TransactionName}</div>
                 <div><span className="font-medium">Total Amount:</span> ₹{selectedTransaction.Amount}</div>
                 <div><span className="font-medium">Amount Paid:</span> ₹{calculateTotalPaid(selectedTransaction.Payments || [])}</div>
                 <div><span className="font-medium">Amount Due:</span> ₹{selectedTransaction.Amount - calculateTotalPaid(selectedTransaction.Payments || [])}</div>
