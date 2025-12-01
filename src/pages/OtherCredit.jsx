@@ -54,7 +54,7 @@ function OtherCredit() {
     Name: '',
     Amount: '',
     ModeofPayment: '',
-    Category: 'Other',
+    Category: '',
     PaymentStatus: 'Pending',
     Description: '',
   });
@@ -186,7 +186,7 @@ function OtherCredit() {
         Name: '',
         Amount: '',
         ModeofPayment: '',
-        Category: 'Other',
+        Category: '',
         PaymentStatus: 'Pending',
         Description: '',
       });
