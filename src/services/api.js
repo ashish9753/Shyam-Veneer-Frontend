@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getApiUrl = () => {
   // Shyam Veneer - Use deployed backend by default. Change here if you want a different base.
-  const deployed = 'https://shyam-veneer-backend.onrender.com/api/v1';
+  const deployed = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
   console.log('Shyam Veneer API - Using deployed backend:', deployed);
   return deployed;
 };

@@ -25,7 +25,7 @@ const Banks = () => {
     });
 
     const getApiUrl = () => {
-        return 'https://shyam-veneer-backend.onrender.com';
+        return 'https://shyam-veneer-backend-1.onrender.com';
     };
 
     const API_URL = getApiUrl();
