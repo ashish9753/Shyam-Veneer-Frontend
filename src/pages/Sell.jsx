@@ -341,7 +341,44 @@ function Sell() {
     return grouped;
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse space-y-6">
+          {/* Header skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 border-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4">
+                <div className="bg-gray-300 p-4 rounded-xl w-16 h-16"></div>
+                <div className="space-y-2">
+                  <div className="h-8 bg-gray-300 rounded w-64"></div>
+                  <div className="h-4 bg-gray-300 rounded w-48"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Orders table skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="p-6 space-y-4">
+              <div className="h-6 bg-gray-300 rounded w-48"></div>
+              <div className="space-y-3">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="flex items-center space-x-4 p-4 border-b">
+                    <div className="h-4 bg-gray-300 rounded w-32"></div>
+                    <div className="h-4 bg-gray-300 rounded w-24"></div>
+                    <div className="h-4 bg-gray-300 rounded w-28"></div>
+                    <div className="h-4 bg-gray-300 rounded w-20"></div>
+                    <div className="h-8 bg-gray-300 rounded w-24"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
@@ -460,7 +497,29 @@ function Sell() {
         </div>
       </div>
 
-      {loading && <LoadingSpinner />}
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div className="animate-pulse space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-gray-300 h-12 w-12"></div>
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="h-4 bg-gray-300 rounded"></div>
+                <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+                <div className="h-4 bg-gray-300 rounded w-4/6"></div>
+              </div>
+              <div className="flex justify-center pt-4">
+                <div className="h-8 bg-gray-300 rounded w-32"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Orders Table with Wood Theme */}
       <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-4 border-amber-200">
@@ -852,7 +911,7 @@ function Sell() {
                   disabled={loading}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'sclatean loading...' : 'Create Sell Order'}
+                  {loading ? 'Creating...' : 'Create Sell Order'}
                 </button>
               </div>
             </form>
@@ -935,7 +994,7 @@ function Sell() {
                   disabled={loading}
                   className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'sclatean loading...' : 'Add Payment'}
+                  {loading ? 'Adding...' : 'Add Payment'}
                 </button>
               </div>
             </form>
@@ -1172,7 +1231,7 @@ function Sell() {
                   disabled={loading}
                   className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'sclatean loading...' : 'Update Order'}
+                  {loading ? 'Updating...' : 'Update Order'}
                 </button>
               </div>
             </form>

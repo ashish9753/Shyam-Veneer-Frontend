@@ -419,7 +419,29 @@ function Buy() {
         </div>
       )}
 
-      {loading && <LoadingSpinner />}
+      {loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+            <div className="animate-pulse space-y-4">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-gray-300 h-12 w-12"></div>
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="h-4 bg-gray-300 rounded"></div>
+                <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+                <div className="h-4 bg-gray-300 rounded w-4/6"></div>
+              </div>
+              <div className="flex justify-center pt-4">
+                <div className="h-8 bg-gray-300 rounded w-32"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Filter Section with Wood Theme */}
       <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 border-4 border-amber-200">
@@ -847,7 +869,7 @@ function Buy() {
                   disabled={loading}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300"
                 >
-                  {loading ? 'sclatean loading...' : 'Create Order'}
+                  {loading ? 'Creating...' : 'Create Order'}
                 </button>
               </div>
             </form>
@@ -1036,7 +1058,7 @@ function Buy() {
                   disabled={loading}
                   className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 disabled:bg-amber-300"
                 >
-                  {loading ? 'sclatean loading...' : 'Update Order'}
+                  {loading ? 'Updating...' : 'Update Order'}
                 </button>
               </div>
             </form>
@@ -1122,7 +1144,7 @@ function Buy() {
                   disabled={loading}
                   className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-green-300"
                 >
-                  {loading ? 'sclatean loading...' : 'Apply Payment'}
+                  {loading ? 'Processing...' : 'Apply Payment'}
                 </button>
               </div>
             </form>

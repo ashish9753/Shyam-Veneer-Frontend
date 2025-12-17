@@ -170,9 +170,40 @@ const Accounting = () => {
   if (loading) {
     return (
       <div className="container mx-auto p-6">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <span className="ml-3 text-lg">sclatean loading...</span>
+        <div className="animate-pulse space-y-6">
+          {/* Header skeleton */}
+          <div className="flex justify-between items-center">
+            <div className="h-8 bg-gray-300 rounded w-1/3"></div>
+            <div className="h-10 bg-gray-300 rounded w-32"></div>
+          </div>
+          
+          {/* Stats cards skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="bg-white rounded-lg shadow p-6 space-y-3">
+                <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+                <div className="h-8 bg-gray-300 rounded w-1/2"></div>
+                <div className="h-3 bg-gray-300 rounded w-3/4"></div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Table skeleton */}
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            <div className="px-6 py-4 border-b">
+              <div className="h-6 bg-gray-300 rounded w-1/4"></div>
+            </div>
+            <div className="divide-y">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="px-6 py-4 flex items-center space-x-4">
+                  <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/6"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/5"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/6"></div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );

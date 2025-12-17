@@ -349,7 +349,60 @@ function OtherDebit() {
     return grouped;
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse space-y-6">
+          {/* Header skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 border-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4">
+                <div className="bg-gray-300 p-4 rounded-xl w-16 h-16"></div>
+                <div className="space-y-2">
+                  <div className="h-8 bg-gray-300 rounded w-64"></div>
+                  <div className="h-4 bg-gray-300 rounded w-48"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Form skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="space-y-2">
+                  <div className="h-4 bg-gray-300 rounded w-24"></div>
+                  <div className="h-10 bg-gray-300 rounded"></div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-end space-x-4 pt-6">
+              <div className="h-10 bg-gray-300 rounded w-24"></div>
+              <div className="h-10 bg-gray-300 rounded w-32"></div>
+            </div>
+          </div>
+          
+          {/* Table skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8">
+            <div className="space-y-4">
+              <div className="h-6 bg-gray-300 rounded w-48"></div>
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex items-center space-x-4 p-4 border-b">
+                    <div className="h-4 bg-gray-300 rounded w-32"></div>
+                    <div className="h-4 bg-gray-300 rounded w-24"></div>
+                    <div className="h-4 bg-gray-300 rounded w-28"></div>
+                    <div className="h-4 bg-gray-300 rounded w-20"></div>
+                    <div className="h-8 bg-gray-300 rounded w-16"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
@@ -754,7 +807,7 @@ function OtherDebit() {
                   disabled={loading}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'sclatean loading...' : 'Create Transaction'}
+                  {loading ? 'Creating...' : 'Create Transaction'}
                 </button>
               </div>
             </form>
@@ -837,7 +890,7 @@ function OtherDebit() {
                   disabled={loading}
                   className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'sclatean loading...' : 'Add Payment'}
+                  {loading ? 'Adding...' : 'Add Payment'}
                 </button>
               </div>
             </form>
@@ -1003,7 +1056,7 @@ function OtherDebit() {
                   disabled={loading}
                   className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'sclatean loading...' : 'Update Transaction'}
+                  {loading ? 'Updating...' : 'Update Transaction'}
                 </button>
               </div>
             </form>

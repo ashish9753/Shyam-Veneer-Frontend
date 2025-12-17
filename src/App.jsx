@@ -22,10 +22,36 @@ const AppContent = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">sclatean loading...</p>
+      <div className="min-h-screen bg-gray-50">
+        <div className="animate-pulse">
+          {/* Header skeleton */}
+          <div className="bg-white shadow-sm border-b">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center py-4">
+                <div className="h-8 bg-gray-300 rounded w-32"></div>
+                <div className="flex space-x-4">
+                  <div className="h-8 bg-gray-300 rounded w-20"></div>
+                  <div className="h-8 bg-gray-300 rounded w-20"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Main content skeleton */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="space-y-6">
+              <div className="h-8 bg-gray-300 rounded w-1/3"></div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="bg-white rounded-lg shadow p-6 space-y-4">
+                    <div className="h-6 bg-gray-300 rounded w-2/3"></div>
+                    <div className="h-4 bg-gray-300 rounded"></div>
+                    <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
