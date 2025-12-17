@@ -353,6 +353,45 @@ function Buy() {
 
   const groupedOrders = groupOrdersByCustomer();
 
+  if (loading) return (
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="animate-pulse space-y-6">
+          {/* Header skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl p-8 border-4">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center space-x-4">
+                <div className="bg-gray-300 p-4 rounded-xl w-16 h-16"></div>
+                <div className="space-y-2">
+                  <div className="h-8 bg-gray-300 rounded w-64"></div>
+                  <div className="h-4 bg-gray-300 rounded w-48"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Orders table skeleton */}
+          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="p-6 space-y-4">
+              <div className="h-6 bg-gray-300 rounded w-48"></div>
+              <div className="space-y-3">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="flex items-center space-x-4 p-4 border-b">
+                    <div className="h-4 bg-gray-300 rounded w-32"></div>
+                    <div className="h-4 bg-gray-300 rounded w-24"></div>
+                    <div className="h-4 bg-gray-300 rounded w-28"></div>
+                    <div className="h-4 bg-gray-300 rounded w-20"></div>
+                    <div className="h-8 bg-gray-300 rounded w-24"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
       <div className="container mx-auto px-4 py-8">

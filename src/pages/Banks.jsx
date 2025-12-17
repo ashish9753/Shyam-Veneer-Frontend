@@ -169,8 +169,52 @@ const Banks = () => {
 
     if (loading && banks.length === 0) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="text-lg text-gray-600">Loading banks...</div>
+            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="animate-pulse space-y-6">
+                        {/* Header skeleton */}
+                        <div className="bg-white rounded-2xl shadow-2xl p-8 border-4">
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center space-x-4">
+                                    <div className="bg-gray-300 p-4 rounded-xl w-16 h-16"></div>
+                                    <div className="space-y-2">
+                                        <div className="h-8 bg-gray-300 rounded w-64"></div>
+                                        <div className="h-4 bg-gray-300 rounded w-48"></div>
+                                    </div>
+                                </div>
+                                <div className="h-12 bg-gray-300 rounded w-40"></div>
+                            </div>
+                            {/* Search bar skeleton */}
+                            <div className="mt-4">
+                                <div className="h-12 bg-gray-300 rounded-xl w-full"></div>
+                            </div>
+                        </div>
+                        
+                        {/* Bank cards skeleton */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[1, 2, 3, 4, 5, 6].map((i) => (
+                                <div key={i} className="bg-white rounded-2xl shadow-xl border-4 p-6 space-y-4">
+                                    <div className="flex items-center space-x-4">
+                                        <div className="bg-gray-300 p-3 rounded-xl w-12 h-12"></div>
+                                        <div className="space-y-2 flex-1">
+                                            <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+                                            <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-3">
+                                        <div className="h-4 bg-gray-300 rounded w-full"></div>
+                                        <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                                        <div className="h-4 bg-gray-300 rounded w-5/6"></div>
+                                    </div>
+                                    <div className="flex justify-between pt-4">
+                                        <div className="h-8 bg-gray-300 rounded w-20"></div>
+                                        <div className="h-8 bg-gray-300 rounded w-24"></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
