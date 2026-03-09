@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { sellAPI, bankAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useDemoMode } from '../contexts/DemoModeContext';
 
 function Sell() {
+  const { isDemoMode, getDemoTransactions, addDemoTransaction, updateDemoTransaction, getDemoBanks } = useDemoMode();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -54,12 +56,20 @@ function Sell() {
   useEffect(() => {
     fetchOrders();
     fetchBanks();
-  }, []);
+  }, [isDemoMode]); // Re-fetch when demo mode changes
 
   const fetchOrders = async () => {
     setLoading(true);
     setError('');
     try {
+      // If in demo mode, use demo data
+      if (isDemoMode) {
+        const demoOrders = getDemoTransactions('sell');
+        setOrders(demoOrders || []);
+        setLoading(false);
+        return;
+      }
+      
       const response = await sellAPI.getAll();
       setOrders(response.data || []);
     } catch (err) {
@@ -71,6 +81,13 @@ function Sell() {
 
   const fetchBanks = async () => {
     try {
+      // If in demo mode, use demo banks
+      if (isDemoMode) {
+        const demoBanks = getDemoBanks();
+        setBanks(demoBanks || []);
+        return;
+      }
+      
       const response = await bankAPI.getAll();
       console.log('Banks fetched:', response.data);
       setBanks(response.data || []);
@@ -165,6 +182,32 @@ function Sell() {
     setSuccess('');
 
     try {
+      // If in demo mode, add to demo data
+      if (isDemoMode) {
+        addDemoTransaction({ ...formData, type: 'sell', createdAt: new Date().toISOString() });
+        setSuccess('Sell order created successfully! (Demo Mode)');
+        setShowAddModal(false);
+        setFormData({
+          CustomerName: '',
+          ItemName: '',
+          Under: '',
+          Quantity: '',
+          Amount: '',
+          VatAmount: '',
+          BillNumber: '',
+          CustomCharges: '',
+          PhoneNumber: '',
+          VehicleNumber: '',
+          PaymentStatus: 'Pending',
+          PaymentDeadline: '',
+          ModeofPayment: '',
+          DeliveryAddress: '',
+        });
+        fetchOrders();
+        setLoading(false);
+        return;
+      }
+      
       const response = await sellAPI.create(formData);
       setSuccess(response.message || 'Sell order created successfully!');
       setShowAddModal(false);
@@ -220,6 +263,33 @@ function Sell() {
     setSuccess('');
 
     try {
+      // If in demo mode, update demo data
+      if (isDemoMode) {
+        updateDemoTransaction(editingOrder.id, formData);
+        setSuccess('Sell order updated successfully! (Demo Mode)');
+        setShowEditModal(false);
+        setEditingOrder(null);
+        setFormData({
+          CustomerName: '',
+          ItemName: '',
+          Under: '',
+          Quantity: '',
+          Amount: '',
+          VatAmount: '',
+          BillNumber: '',
+          CustomCharges: '',
+          PhoneNumber: '',
+          VehicleNumber: '',
+          PaymentStatus: 'Pending',
+          PaymentDeadline: '',
+          ModeofPayment: '',
+          DeliveryAddress: '',
+        });
+        fetchOrders();
+        setLoading(false);
+        return;
+      }
+      
       const response = await sellAPI.update(editingOrder._id, formData);
       setSuccess(response.message || 'Sell order updated successfully!');
       setShowEditModal(false);
@@ -250,6 +320,12 @@ function Sell() {
 
   const handlePaymentSubmit = async (e) => {
     e.preventDefault();
+    
+    if (isDemoMode) {
+      setError('Payment functionality is not available in demo mode');
+      return;
+    }
+    
     setLoading(true);
     setError('');
     setSuccess('');
@@ -383,6 +459,21 @@ function Sell() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
       <div className="container mx-auto px-4 py-8">
+      {/* Demo Mode Banner */}
+      {isDemoMode && (
+        <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded-lg shadow-lg">
+          <div className="flex items-center">
+            <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p className="font-bold text-lg">Demo Mode Active</p>
+              <p className="text-sm">You're viewing sample demo data. Real database information is protected and not visible in demo mode.</p>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Header Section with Wood Theme */}
       <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
         <div className="flex justify-between items-center">

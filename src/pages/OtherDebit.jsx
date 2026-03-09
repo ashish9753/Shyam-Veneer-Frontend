@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { bankAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useDemoMode } from '../contexts/DemoModeContext';
 
 const API_URL = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
 
@@ -40,6 +41,7 @@ const otherDebitAPI = {
 };
 
 function OtherDebit() {
+  const { isDemoMode, getDemoTransactions, addDemoTransaction, updateDemoTransaction, getDemoBanks } = useDemoMode();
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -84,12 +86,20 @@ function OtherDebit() {
   useEffect(() => {
     fetchTransactions();
     fetchBanks();
-  }, []);
+  }, [isDemoMode]); // Re-fetch when demo mode changes
 
   const fetchTransactions = async () => {
     setLoading(true);
     setError('');
     try {
+      // If in demo mode, use demo data
+      if (isDemoMode) {
+        const demoTransactions = getDemoTransactions('other-debit');
+        setTransactions(demoTransactions || []);
+        setLoading(false);
+        return;
+      }
+      
       const response = await otherDebitAPI.getAll();
       setTransactions(response.data || []);
     } catch (err) {
@@ -101,6 +111,13 @@ function OtherDebit() {
 
   const fetchBanks = async () => {
     try {
+      // If in demo mode, use demo banks
+      if (isDemoMode) {
+        const demoBanks = getDemoBanks();
+        setBanks(demoBanks || []);
+        return;
+      }
+      
       const response = await bankAPI.getAll();
       console.log('Banks fetched:', response.data);
       setBanks(response.data || []);
@@ -190,6 +207,33 @@ function OtherDebit() {
     setSuccess('');
 
     try {
+      // If in demo mode, add to demo data instead of API
+      if (isDemoMode) {
+        const newTransaction = {
+          ...formData,
+          _id: Date.now().toString(),
+          createdAt: new Date().toISOString(),
+          payments: [],
+          type: 'other-debit'
+        };
+        addDemoTransaction(newTransaction);
+        setSuccess('Transaction created successfully (Demo Mode)');
+        setShowAddModal(false);
+        setFormData({
+          Name: '',
+          Amount: '',
+          ModeofPayment: '',
+          Category: 'Other',
+          PaymentStatus: 'Pending',
+          Description: '',
+        });
+        // Refresh demo data
+        const demoTransactions = getDemoTransactions('other-debit');
+        setTransactions(demoTransactions || []);
+        setLoading(false);
+        return;
+      }
+      
       const response = await otherDebitAPI.create(formData);
       setSuccess(response.message || 'Transaction created successfully!');
       setShowAddModal(false);
@@ -216,6 +260,13 @@ function OtherDebit() {
     setSuccess('');
 
     try {
+      // Payment operations not allowed in demo mode
+      if (isDemoMode) {
+        setError('Payment operations are disabled in demo mode');
+        setLoading(false);
+        return;
+      }
+      
       const response = await otherDebitAPI.applyPayment(paymentData);
       setSuccess(response.message || 'Payment applied successfully!');
       setShowPaymentModal(false);
@@ -249,6 +300,31 @@ function OtherDebit() {
     setSuccess('');
 
     try {
+      // If in demo mode, update demo data instead of API
+      if (isDemoMode) {
+        const updatedTransaction = {
+          ...editingTransaction,
+          ...formData
+        };
+        updateDemoTransaction(editingTransaction._id, updatedTransaction);
+        setSuccess('Transaction updated successfully (Demo Mode)');
+        setShowEditModal(false);
+        setEditingTransaction(null);
+        setFormData({
+          Name: '',
+          Amount: '',
+          ModeofPayment: '',
+          Category: '',
+          PaymentStatus: 'Pending',
+          Description: '',
+        });
+        // Refresh demo data
+        const demoTransactions = getDemoTransactions('other-debit');
+        setTransactions(demoTransactions || []);
+        setLoading(false);
+        return;
+      }
+      
       const response = await otherDebitAPI.update(editingTransaction._id, formData);
       setSuccess(response.message || 'Transaction updated successfully!');
       setShowEditModal(false);
@@ -406,6 +482,13 @@ function OtherDebit() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+      {/* Demo Mode Banner */}
+      {isDemoMode && (
+        <div className="bg-blue-600 text-white px-4 py-3 text-center font-semibold">
+          🎭 DEMO MODE - Changes will not be saved to database
+        </div>
+      )}
+      
       <div className="container mx-auto px-4 py-8">
       <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
         <div className="flex justify-between items-center">
