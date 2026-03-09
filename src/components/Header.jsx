@@ -1,17 +1,14 @@
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
-import { useDemoMode } from '../contexts/DemoModeContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const { unreadCount, connectionError } = useNotifications();
-  const { isDemoMode, enterDemoMode, exitDemoMode, remainingTime } = useDemoMode();
 
   // Define navigation based on user role
   const getNavigation = () => {
@@ -142,33 +139,6 @@ const Header = () => {
               {/* User Info & Logout */}
               {isAuthenticated() ? (
                 <div className="flex items-center space-x-4">
-                  {/* Demo Mode Toggle */}
-                  <button
-                    onClick={() => {
-                      if (isDemoMode) {
-                        exitDemoMode();
-                        navigate('/');
-                      } else {
-                        enterDemoMode();
-                        navigate('/demo/buy');
-                      }
-                    }}
-                    className={`px-4 py-2 text-sm font-bold rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 ${
-                      isDemoMode
-                        ? 'text-white bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 border-purple-500'
-                        : 'text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 border-blue-500'
-                    }`}
-                  >
-                    {isDemoMode ? (
-                      <span className="flex items-center space-x-2">
-                        <span>Exit Demo</span>
-                        <span className="text-xs bg-white/20 px-2 py-0.5 rounded">{remainingTime}m</span>
-                      </span>
-                    ) : (
-                      'Demo Mode'
-                    )}
-                  </button>
-                  
                   <div className="flex items-center space-x-2 bg-amber-800 px-4 py-2 rounded-xl border-2 border-amber-600 shadow-lg">
                     <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-xl border-2 border-amber-300">
                       <span className="text-white text-sm font-bold">
@@ -298,38 +268,6 @@ const Header = () => {
               </div>
             )}
           </nav>
-          
-          {/* Demo Mode Toggle for Mobile */}
-          {isAuthenticated() && (
-            <div className="px-4 pb-4">
-              <button
-                onClick={() => {
-                  if (isDemoMode) {
-                    exitDemoMode();
-                    navigate('/');
-                  } else {
-                    enterDemoMode();
-                    navigate('/demo/buy');
-                  }
-                  setIsMenuOpen(false);
-                }}
-                className={`w-full px-4 py-3 rounded-xl text-base font-bold shadow-lg transition-all border-2 ${
-                  isDemoMode
-                    ? 'text-white bg-gradient-to-r from-purple-600 to-purple-700 border-purple-500'
-                    : 'text-white bg-gradient-to-r from-blue-600 to-blue-700 border-blue-500'
-                }`}
-              >
-                {isDemoMode ? (
-                  <span className="flex items-center justify-between">
-                    <span>Exit Demo Mode</span>
-                    <span className="text-xs bg-white/20 px-2 py-1 rounded">{remainingTime}m left</span>
-                  </span>
-                ) : (
-                  'Enter Demo Mode'
-                )}
-              </button>
-            </div>
-          )}
         </div>
       )}
     </header>

@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
-import { DemoModeProvider } from './contexts/DemoModeContext';
 import Header from './components/Header';
 import SessionManager from './components/SessionManager';
 import Footer from './components/Footer';
@@ -15,19 +14,11 @@ import Banks from './pages/Banks';
 import OtherCredit from './pages/OtherCredit';
 import OtherDebit from './pages/OtherDebit';
 import NotificationsFixed from './pages/NotificationsFixed';
-import DemoBuy from './pages/demo/DemoBuy';
-import DemoSell from './pages/demo/DemoSell';
-import DemoAccounting from './pages/demo/DemoAccounting';
-import DemoBanks from './pages/demo/DemoBanks';
-import DemoOtherCredit from './pages/demo/DemoOtherCredit';
-import DemoOtherDebit from './pages/demo/DemoOtherDebit';
-import DemoNotifications from './pages/demo/DemoNotifications';
 import './App.css';
 
 // Main App component that uses auth context
 const AppContent = () => {
   const { isAuthenticated, loading } = useAuth();
-  const isDemoRoute = window.location.pathname.startsWith('/demo');
 
   if (loading) {
     return (
@@ -133,34 +124,11 @@ const AppContent = () => {
     );
   }
 
-  // If not authenticated and not a demo route, show login page
-  if (!isAuthenticated() && !isDemoRoute) {
+  // If not authenticated, show login page
+  if (!isAuthenticated()) {
     return <Login />;
   }
 
-  // For demo routes, show header without SessionManager (no auth required)
-  if (isDemoRoute) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            {/* Demo Routes - Public Access */}
-            <Route path="/demo/buy" element={<DemoBuy />} />
-            <Route path="/demo/sell" element={<DemoSell />} />
-            <Route path="/demo/accounting" element={<DemoAccounting />} />
-            <Route path="/demo/banks" element={<DemoBanks />} />
-            <Route path="/demo/other-credit" element={<DemoOtherCredit />} />
-            <Route path="/demo/other-debit" element={<DemoOtherDebit />} />
-            <Route path="/demo/notifications" element={<DemoNotifications />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  // For authenticated users (admin pages)
   return (
     <div className="min-h-screen flex flex-col">
       <SessionManager />
@@ -233,16 +201,14 @@ const AppContent = () => {
   );
 };
 
-// Main App wrapper with AuthProvider, NotificationProvider, and DemoModeProvider
+// Main App wrapper with AuthProvider and NotificationProvider
 function App() {
   return (
     <AuthProvider>
       <NotificationProvider>
-        <DemoModeProvider>
-          <Router>
-            <AppContent />
-          </Router>
-        </DemoModeProvider>
+        <Router>
+          <AppContent />
+        </Router>
       </NotificationProvider>
     </AuthProvider>
   );

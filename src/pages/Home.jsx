@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useDemoMode } from '../contexts/DemoModeContext';
 
 const Home = () => {
   const [showComingSoon, setShowComingSoon] = useState(false);
@@ -12,8 +11,6 @@ const Home = () => {
     phone: '',
     message: ''
   });
-  const navigate = useNavigate();
-  const { isDemoMode, enterDemoMode, exitDemoMode } = useDemoMode();
 
   // Ply products with images
   const plyProducts = [
@@ -348,24 +345,6 @@ const Home = () => {
               href="tel:+977-9860218415"
               className="border-2 border-amber-100 text-amber-50 px-8 py-4 rounded-xl font-bold hover:bg-amber-100 hover:text-amber-900 transition-all duration-300 transform hover:scale-105"
             >
-            <button
-              onClick={() => {
-                if (isDemoMode) {
-                  exitDemoMode();
-                  navigate('/');
-                } else {
-                  enterDemoMode();
-                  navigate('/demo/buy');
-                }
-              }}
-              className={`px-8 py-4 rounded-xl font-bold shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 ${
-                isDemoMode
-                  ? 'bg-purple-600 text-white border-purple-400 hover:bg-purple-700'
-                  : 'bg-blue-600 text-white border-blue-400 hover:bg-blue-700'
-              }`}
-            >
-              {isDemoMode ? '🚀 Exit Demo Mode' : '🎯 Try Demo Mode'}
-            </button>
               📞 Call: +977-9860218415
             </a>
           </div>
