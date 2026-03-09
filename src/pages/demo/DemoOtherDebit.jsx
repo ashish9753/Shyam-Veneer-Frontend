@@ -52,54 +52,89 @@ function DemoOtherDebit() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-bold text-red-900">Other Debits (Demo)</h1>
-            <p className="text-sm text-red-600 mt-1">Session Storage - Data expires in 10 minutes</p>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6">
+      <div className="container mx-auto">
+        {/* Header Section with Wood Theme */}
+        <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-6 border-4 border-amber-700">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
+                <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Other Debits (Demo)</h1>
+                <p className="text-amber-200 mt-1 text-sm">Session Storage - Data expires in 10 minutes</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowAddModal(true)}
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-red-500"
+            >
+              <span className="flex items-center">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Add Debit
+              </span>
+            </button>
           </div>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700"
-          >
-            Add Debit
-          </button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <table className="min-w-full">
-            <thead className="bg-red-600 text-white">
-              <tr>
-                <th className="px-6 py-3 text-left">Name</th>
-                <th className="px-6 py-3 text-left">Amount</th>
-                <th className="px-6 py-3 text-left">Category</th>
-                <th className="px-6 py-3 text-left">Payment Mode</th>
-                <th className="px-6 py-3 text-left">Status</th>
-                <th className="px-6 py-3 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {transactions.map(transaction => (
-                <tr key={transaction._id}>
-                  <td className="px-6 py-4 text-sm text-gray-900">{transaction.Name}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">₹{transaction.Amount}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{transaction.Category}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{transaction.ModeofPayment}</td>
-                  <td className="px-6 py-4 text-sm">
-                    <span className="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">
-                      {transaction.PaymentStatus}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    <button onClick={() => handleDelete(transaction._id)} className="text-red-600 hover:text-red-900">
-                      Delete
-                    </button>
-                  </td>
+        {/* Transactions Table with Wood Theme */}
+        <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-4 border-amber-200">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y-2 divide-amber-200">
+              <thead className="bg-gradient-to-r from-red-700 via-red-600 to-red-700">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider border-r border-red-500">Name</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider border-r border-red-500">Amount</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider border-r border-red-500">Category</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider border-r border-red-500">Payment Mode</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider border-r border-red-500">Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-white uppercase tracking-wider">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y-2 divide-red-100">
+                {transactions.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-12 text-center text-gray-500">
+                      <div className="flex flex-col items-center">
+                        <svg className="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p className="text-lg font-semibold">No debit transactions found</p>
+                        <p className="text-sm mt-1">Click \"Add Debit\" to create your first transaction</p>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  transactions.map(transaction => (
+                    <tr key={transaction._id} className="hover:bg-red-50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{transaction.Name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">₹{parseFloat(transaction.Amount).toLocaleString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.Category}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.ModeofPayment}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                          {transaction.PaymentStatus}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        <button 
+                          onClick={() => handleDelete(transaction._id)} 
+                          className="text-red-600 hover:text-red-900 font-semibold hover:underline transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {showAddModal && (
