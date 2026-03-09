@@ -140,7 +140,9 @@ const Header = () => {
               </nav>
 
               {/* User Info & Logout */}
-              {isA{/* Demo Mode Toggle */}
+              {isAuthenticated() ? (
+                <div className="flex items-center space-x-4">
+                  {/* Demo Mode Toggle */}
                   <button
                     onClick={() => {
                       if (isDemoMode) {
@@ -167,8 +169,7 @@ const Header = () => {
                     )}
                   </button>
                   
-                  uthenticated() ? (
-                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 bg-amber-800 px-4 py-2 rounded-xl border-2 border-amber-600 shadow-lg">
                   <div className="flex items-center space-x-2 bg-amber-800 px-4 py-2 rounded-xl border-2 border-amber-600 shadow-lg">
                     <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-xl border-2 border-amber-300">
                       <span className="text-white text-sm font-bold">
