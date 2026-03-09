@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { notificationAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useDemoMode } from '../contexts/DemoModeContext';
 
 const NotificationsFixed = () => {
+  const { isDemoMode, getDemoNotifications } = useDemoMode();
   const [notifications, setNotifications] = useState([]);
   const [filteredNotifications, setFilteredNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,6 +22,17 @@ const NotificationsFixed = () => {
     try {
       setLoading(true);
       setError('');
+      
+      // If in demo mode, use demo notifications
+      if (isDemoMode) {
+        const demoNotifs = getDemoNotifications();
+        setNotifications(demoNotifs);
+        setFilteredNotifications(demoNotifs);
+        setLoading(false);
+        return;
+      }
+      
+      // Otherwise fetch from API
       const response = await notificationAPI.getAll();
       if (response.success) {
         setNotifications(response.data);
@@ -88,6 +101,18 @@ const NotificationsFixed = () => {
   const markAsRead = async (id) => {
     try {
       setMarkingAsRead(id);
+      
+      // In demo mode, just update local state
+      if (isDemoMode) {
+        setNotifications(prev => 
+          prev.map(notif => 
+            notif.id === id ? { ...notif, read: true } : notif
+          )
+        );
+        setMarkingAsRead(null);
+        return;
+      }
+      
       const response = await notificationAPI.markAsRead(id);
       if (response.success) {
         setNotifications(prev => 
@@ -106,6 +131,11 @@ const NotificationsFixed = () => {
 
   // Manual check for overdue payments
   const checkOverduePayments = async () => {
+    if (isDemoMode) {
+      alert('This feature is not available in demo mode');
+      return;
+    }
+    
     try {
       setLoading(true);
       const response = await notificationAPI.checkOverdue();
@@ -143,7 +173,7 @@ const NotificationsFixed = () => {
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [isDemoMode]); // Re-fetch when demo mode changes
 
   if (loading) {
     return (
@@ -236,6 +266,21 @@ const NotificationsFixed = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
       <div className="container mx-auto px-4 py-8">
+        {/* Demo Mode Banner */}
+        {isDemoMode && (
+          <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded-lg shadow-lg">
+            <div className="flex items-center">
+              <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <p className="font-bold text-lg">Demo Mode Active</p>
+                <p className="text-sm">You're viewing sample demo data. Real database information is protected and not visible in demo mode.</p>
+              </div>
+            </div>
+          </div>
+        )}
+        
         {/* Header */}
         <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
           <div className="flex justify-between items-center">

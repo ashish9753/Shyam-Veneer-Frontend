@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
+import { useDemoMode } from '../contexts/DemoModeContext';
 
 const Banks = () => {
+    const { isDemoMode, getDemoBanks, addDemoBank, updateDemoBank, deleteDemoBank } = useDemoMode();
     const [banks, setBanks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -32,11 +34,22 @@ const Banks = () => {
 
     useEffect(() => {
         fetchBanks();
-    }, []);
+    }, [isDemoMode]); // Re-fetch when demo mode changes
 
     const fetchBanks = async () => {
         try {
             setLoading(true);
+            
+            // If in demo mode, use demo data
+            if (isDemoMode) {
+                const demoBanks = getDemoBanks();
+                setBanks(demoBanks);
+                setError('');
+                setLoading(false);
+                return;
+            }
+            
+            // Otherwise fetch from API
             const response = await axios.get(`${API_URL}/api/v1/banks`);
             if (response.data.success) {
                 setBanks(response.data.data);
@@ -53,6 +66,15 @@ const Banks = () => {
     const fetchBankTransactions = async (bankId) => {
         try {
             setLoadingTransactions(true);
+            
+            // In demo mode, show sample transactions
+            if (isDemoMode) {
+                setBankTransactions([]);
+                setBankSummary({ totalDeposits: 0, totalWithdrawals: 0, balance: 0 });
+                setLoadingTransactions(false);
+                return;
+            }
+            
             const response = await axios.get(`${API_URL}/api/v1/banks/${bankId}/transactions?limit=50`);
             if (response.data.success) {
                 setBankTransactions(response.data.data.transactions);
@@ -70,6 +92,30 @@ const Banks = () => {
         e.preventDefault();
         try {
             setLoading(true);
+            
+            // In demo mode, add to demo data
+            if (isDemoMode) {
+                addDemoBank(formData);
+                // Reset form
+                setFormData({
+                    bankName: '',
+                    accountNumber: '',
+                    accountHolderName: '',
+                    ifscCode: '',
+                    branchName: '',
+                    accountType: 'Current',
+                    contactPerson: '',
+                    contactNumber: '',
+                    address: ''
+                });
+                setShowAddForm(false);
+                await fetchBanks(); // Refresh banks list
+                setError('');
+                alert('Bank account added successfully! (Demo Mode)');
+                setLoading(false);
+                return;
+            }
+            
             const response = await axios.post(`${API_URL}/api/v1/banks`, formData);
             
             if (response.data.success) {
@@ -123,6 +169,11 @@ const Banks = () => {
     };
 
     const handleToggleBankStatus = async (bankId, currentStatus) => {
+        if (isDemoMode) {
+            alert('This feature is not available in demo mode');
+            return;
+        }
+        
         try {
             const response = await axios.patch(`${API_URL}/api/v1/banks/${bankId}/toggle-status`);
             
@@ -222,6 +273,21 @@ const Banks = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6">
             <div className="max-w-7xl mx-auto">
+                {/* Demo Mode Banner */}
+                {isDemoMode && (
+                    <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded-lg shadow-lg">
+                        <div className="flex items-center">
+                            <svg className="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <p className="font-bold text-lg">Demo Mode Active</p>
+                                <p className="text-sm">You're viewing sample demo data. Real database information is protected and not visible in demo mode.</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                
                 <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-6 border-4 border-amber-700">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-4">

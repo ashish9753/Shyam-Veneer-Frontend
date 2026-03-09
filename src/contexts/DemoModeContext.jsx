@@ -53,35 +53,89 @@ export const DemoModeProvider = ({ children }) => {
 
   const enterDemoMode = () => {
     setIsDemoMode(true);
-    // Initialize with some sample data
+    // Initialize with realistic sample data
+    const now = new Date();
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const twoDaysAgo = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
+    
     setDemoData({
       transactions: [
         {
-          id: 'demo-1',
+          id: 'demo-buy-1',
           type: 'buy',
-          date: new Date().toISOString(),
-          amount: 5000,
-          description: 'Sample Buy Transaction',
-          partyName: 'Demo Supplier',
-          createdAt: new Date().toISOString()
+          CustomerName: 'Demo Supplier A',
+          ItemName: 'Premium Plywood',
+          Amount: 15000,
+          PaymentStatus: 'Paid',
+          date: twoDaysAgo.toISOString(),
+          createdAt: twoDaysAgo.toISOString()
         },
         {
-          id: 'demo-2',
+          id: 'demo-buy-2',
+          type: 'buy',
+          CustomerName: 'Demo Supplier B',
+          ItemName: 'Wood Veneer',
+          Amount: 8000,
+          PaymentStatus: 'Pending',
+          date: yesterday.toISOString(),
+          createdAt: yesterday.toISOString()
+        },
+        {
+          id: 'demo-sell-1',
           type: 'sell',
-          date: new Date().toISOString(),
-          amount: 7500,
-          description: 'Sample Sell Transaction',
-          partyName: 'Demo Customer',
-          createdAt: new Date().toISOString()
+          CustomerName: 'Demo Customer X',
+          ItemName: 'Finished Plywood',
+          Amount: 25000,
+          PaymentStatus: 'Paid',
+          date: yesterday.toISOString(),
+          createdAt: yesterday.toISOString()
+        },
+        {
+          id: 'demo-sell-2',
+          type: 'sell',
+          CustomerName: 'Demo Customer Y',
+          ItemName: 'Luxury Veneer',
+          Amount: 18000,
+          PaymentStatus: 'Pending',
+          date: now.toISOString(),
+          createdAt: now.toISOString()
+        },
+        {
+          id: 'demo-credit-1',
+          type: 'other-credit',
+          CustomerName: 'Misc Income',
+          ItemName: 'Consultation Fee',
+          Amount: 5000,
+          PaymentStatus: 'Paid',
+          date: twoDaysAgo.toISOString(),
+          createdAt: twoDaysAgo.toISOString()
+        },
+        {
+          id: 'demo-debit-1',
+          type: 'other-debit',
+          CustomerName: 'Office Expenses',
+          ItemName: 'Utilities',
+          Amount: 3000,
+          PaymentStatus: 'Paid',
+          date: yesterday.toISOString(),
+          createdAt: yesterday.toISOString()
         }
       ],
       banks: [
         {
           id: 'demo-bank-1',
-          bankName: 'Demo Bank',
+          bankName: 'Demo Bank of India',
           accountNumber: '1234567890',
           ifscCode: 'DEMO0001234',
-          balance: 50000,
+          balance: 45000,
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 'demo-bank-2',
+          bankName: 'Demo HDFC Bank',
+          accountNumber: '9876543210',
+          ifscCode: 'DEMO0005678',
+          balance: 30000,
           createdAt: new Date().toISOString()
         }
       ],
@@ -90,15 +144,22 @@ export const DemoModeProvider = ({ children }) => {
         {
           id: 'demo-notif-1',
           type: 'info',
-          message: 'Welcome to Demo Mode! This is a sample notification.',
+          message: 'Welcome to Demo Mode! You can explore all features safely.',
+          read: false,
+          createdAt: new Date().toISOString()
+        },
+        {
+          id: 'demo-notif-2',
+          type: 'warning',
+          message: 'Demo: Payment pending from Demo Customer Y - ₹18,000',
           read: false,
           createdAt: new Date().toISOString()
         }
       ],
       balance: { 
-        totalBalance: 52500, 
-        cashBalance: 2500, 
-        bankBalance: 50000 
+        totalBalance: 75000,
+        cashBalance: 0,
+        bankBalance: 75000
       }
     });
   };
