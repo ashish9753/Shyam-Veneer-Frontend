@@ -27,6 +27,7 @@ import './App.css';
 // Main App component that uses auth context
 const AppContent = () => {
   const { isAuthenticated, loading } = useAuth();
+  const isDemoRoute = window.location.pathname.startsWith('/demo');
 
   if (loading) {
     return (
@@ -132,11 +133,34 @@ const AppContent = () => {
     );
   }
 
-  // If not authenticated, show login page
-  if (!isAuthenticated()) {
+  // If not authenticated and not a demo route, show login page
+  if (!isAuthenticated() && !isDemoRoute) {
     return <Login />;
   }
 
+  // For demo routes, show header without SessionManager (no auth required)
+  if (isDemoRoute) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-grow">
+          <Routes>
+            {/* Demo Routes - Public Access */}
+            <Route path="/demo/buy" element={<DemoBuy />} />
+            <Route path="/demo/sell" element={<DemoSell />} />
+            <Route path="/demo/accounting" element={<DemoAccounting />} />
+            <Route path="/demo/banks" element={<DemoBanks />} />
+            <Route path="/demo/other-credit" element={<DemoOtherCredit />} />
+            <Route path="/demo/other-debit" element={<DemoOtherDebit />} />
+            <Route path="/demo/notifications" element={<DemoNotifications />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // For authenticated users (admin pages)
   return (
     <div className="min-h-screen flex flex-col">
       <SessionManager />
@@ -202,15 +226,6 @@ const AppContent = () => {
               </ProtectedRoute>
             } 
           />
-
-          {/* Demo Routes - Public Access */}
-          <Route path="/demo/buy" element={<DemoBuy />} />
-          <Route path="/demo/sell" element={<DemoSell />} />
-          <Route path="/demo/accounting" element={<DemoAccounting />} />
-          <Route path="/demo/banks" element={<DemoBanks />} />
-          <Route path="/demo/other-credit" element={<DemoOtherCredit />} />
-          <Route path="/demo/other-debit" element={<DemoOtherDebit />} />
-          <Route path="/demo/notifications" element={<DemoNotifications />} />
         </Routes>
       </main>
       <Footer />
