@@ -23,8 +23,11 @@ const NotificationsFixed = () => {
       setLoading(true);
       setError('');
       
+      // SECURITY: Double-check sessionStorage to prevent race conditions
+      const isDemo = isDemoMode || sessionStorage.getItem('isDemoMode') === 'true';
+      
       // If in demo mode, use demo notifications
-      if (isDemoMode) {
+      if (isDemo) {
         const demoNotifs = getDemoNotifications();
         setNotifications(demoNotifs);
         setFilteredNotifications(demoNotifs);

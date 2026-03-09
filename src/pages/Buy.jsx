@@ -81,8 +81,11 @@ function Buy() {
 
   const fetchBanks = async () => {
     try {
+      // SECURITY: Double-check sessionStorage to prevent race conditions
+      const isDemo = isDemoMode || sessionStorage.getItem('isDemoMode') === 'true';
+      
       // If in demo mode, use demo banks
-      if (isDemoMode) {
+      if (isDemo) {
         const demoBanks = getDemoBanks();
         setBanks(demoBanks || []);
         return;

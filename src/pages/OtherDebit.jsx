@@ -92,8 +92,11 @@ function OtherDebit() {
     setLoading(true);
     setError('');
     try {
+      // SECURITY: Double-check sessionStorage to prevent race conditions
+      const isDemo = isDemoMode || sessionStorage.getItem('isDemoMode') === 'true';
+      
       // If in demo mode, use demo data
-      if (isDemoMode) {
+      if (isDemo) {
         const demoTransactions = getDemoTransactions('other-debit');
         setTransactions(demoTransactions || []);
         setLoading(false);
@@ -111,8 +114,11 @@ function OtherDebit() {
 
   const fetchBanks = async () => {
     try {
+      // SECURITY: Double-check sessionStorage to prevent race conditions
+      const isDemo = isDemoMode || sessionStorage.getItem('isDemoMode') === 'true';
+      
       // If in demo mode, use demo banks
-      if (isDemoMode) {
+      if (isDemo) {
         const demoBanks = getDemoBanks();
         setBanks(demoBanks || []);
         return;
