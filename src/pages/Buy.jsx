@@ -188,7 +188,16 @@ function Buy() {
     try {
       // If in demo mode, add to demo data
       if (isDemoMode) {
-        addDemoTransaction({ ...formData, type: 'buy', createdAt: new Date().toISOString() });
+        const newTransaction = {
+          ...formData,
+          _id: `demo-${Date.now()}`,
+          type: 'buy',
+          createdAt: new Date().toISOString(),
+          OrderNumber: `ORD-${Date.now()}`,
+          Payments: [],
+          PaymentStatus: formData.PaymentStatus || 'Pending'
+        };
+        addDemoTransaction(newTransaction);
         setSuccess('Buy order created successfully! (Demo Mode)');
         setShowAddModal(false);
         setFormData({
@@ -201,6 +210,8 @@ function Buy() {
           BillNumber: '',
           PhoneNumber: '',
           VehicleNumber: '',
+          PaymentStatus: 'Pending',
+          PaymentDeadline: '',
           ModeofPayment: 'Cash',
           DeliveryAddress: '',
         });
@@ -222,6 +233,8 @@ function Buy() {
         BillNumber: '',
         PhoneNumber: '',
         VehicleNumber: '',
+        PaymentStatus: 'Pending',
+        PaymentDeadline: '',
         ModeofPayment: 'Cash',
         DeliveryAddress: '',
       });

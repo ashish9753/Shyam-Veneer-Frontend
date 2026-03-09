@@ -208,10 +208,11 @@ function OtherCredit() {
       if (isDemoMode) {
         const newTransaction = {
           ...formData,
-          _id: Date.now().toString(),
+          _id: `demo-${Date.now()}`,
           createdAt: new Date().toISOString(),
-          payments: [],
-          type: 'other-credit'
+          Payments: [],
+          type: 'other-credit',
+          PaymentStatus: formData.PaymentStatus || 'Pending'
         };
         addDemoTransaction(newTransaction);
         setSuccess('Transaction created successfully (Demo Mode)');

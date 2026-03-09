@@ -80,95 +80,111 @@ export const DemoModeProvider = ({ children }) => {
     setDemoData({
       transactions: [
         {
-          id: 'demo-buy-1',
+          _id: 'demo-buy-1',
           type: 'buy',
           CustomerName: 'Demo Supplier A',
           ItemName: 'Premium Plywood',
           Amount: 15000,
-          PaymentStatus: 'Paid',
+          Quantity: 100,
+          OrderNumber: 'ORD-DEMO-001',
+          PaymentStatus: 'Confirmed',
+          Payments: [{ amount: 15000, date: twoDaysAgo.toISOString() }],
           date: twoDaysAgo.toISOString(),
           createdAt: twoDaysAgo.toISOString()
         },
         {
-          id: 'demo-buy-2',
+          _id: 'demo-buy-2',
           type: 'buy',
           CustomerName: 'Demo Supplier B',
           ItemName: 'Wood Veneer',
           Amount: 8000,
+          Quantity: 50,
+          OrderNumber: 'ORD-DEMO-002',
           PaymentStatus: 'Pending',
+          Payments: [],
           date: yesterday.toISOString(),
           createdAt: yesterday.toISOString()
         },
         {
-          id: 'demo-sell-1',
+          _id: 'demo-sell-1',
           type: 'sell',
           CustomerName: 'Demo Customer X',
           ItemName: 'Finished Plywood',
           Amount: 25000,
-          PaymentStatus: 'Paid',
+          Quantity: 75,
+          OrderNumber: 'ORD-DEMO-003',
+          PaymentStatus: 'Confirmed',
+          Payments: [{ amount: 25000, date: yesterday.toISOString() }],
           date: yesterday.toISOString(),
           createdAt: yesterday.toISOString()
         },
         {
-          id: 'demo-sell-2',
+          _id: 'demo-sell-2',
           type: 'sell',
           CustomerName: 'Demo Customer Y',
           ItemName: 'Luxury Veneer',
           Amount: 18000,
+          Quantity: 60,
+          OrderNumber: 'ORD-DEMO-004',
           PaymentStatus: 'Pending',
+          Payments: [],
           date: now.toISOString(),
           createdAt: now.toISOString()
         },
         {
-          id: 'demo-credit-1',
+          _id: 'demo-credit-1',
           type: 'other-credit',
-          CustomerName: 'Misc Income',
-          ItemName: 'Consultation Fee',
+          Name: 'Misc Income',
           Amount: 5000,
-          PaymentStatus: 'Paid',
+          Category: 'Consultation Fee',
+          PaymentStatus: 'Confirmed',
+          Payments: [{ amount: 5000, date: twoDaysAgo.toISOString() }],
           date: twoDaysAgo.toISOString(),
           createdAt: twoDaysAgo.toISOString()
         },
         {
-          id: 'demo-debit-1',
+          _id: 'demo-debit-1',
           type: 'other-debit',
-          CustomerName: 'Office Expenses',
-          ItemName: 'Utilities',
+          Name: 'Office Expenses',
           Amount: 3000,
-          PaymentStatus: 'Paid',
+          Category: 'Utilities',
+          PaymentStatus: 'Confirmed',
+          Payments: [{ amount: 3000, date: yesterday.toISOString() }],
           date: yesterday.toISOString(),
           createdAt: yesterday.toISOString()
         }
       ],
       banks: [
         {
-          id: 'demo-bank-1',
+          _id: 'demo-bank-1',
           bankName: 'Demo Bank of India',
           accountNumber: '1234567890',
           ifscCode: 'DEMO0001234',
           balance: 45000,
+          status: 'Active',
           createdAt: new Date().toISOString()
         },
         {
-          id: 'demo-bank-2',
+          _id: 'demo-bank-2',
           bankName: 'Demo HDFC Bank',
           accountNumber: '9876543210',
           ifscCode: 'DEMO0005678',
           balance: 30000,
+          status: 'Active',
           createdAt: new Date().toISOString()
         }
       ],
       accounts: [],
       notifications: [
         {
-          id: 'demo-notif-1',
+          _id: 'demo-notif-1',
           type: 'info',
           message: 'Welcome to Demo Mode! You can explore all features safely.',
           read: false,
           createdAt: new Date().toISOString()
         },
         {
-          id: 'demo-notif-2',
+          _id: 'demo-notif-2',
           type: 'warning',
           message: 'Demo: Payment pending from Demo Customer Y - ₹18,000',
           read: false,
@@ -201,49 +217,51 @@ export const DemoModeProvider = ({ children }) => {
   const addDemoTransaction = (transaction) => {
     setDemoData(prev => ({
       ...prev,
-      transactions: [...prev.transactions, { ...transaction, id: `demo-${Date.now()}` }]
+      transactions: [...prev.transactions, transaction]
     }));
   };
 
   const updateDemoTransaction = (id, updates) => {
     setDemoData(prev => ({
       ...prev,
-      transactions: prev.transactions.map(t => t.id === id ? { ...t, ...updates } : t)
+      transactions: prev.transactions.map(t => 
+        (t.id === id || t._id === id) ? { ...t, ...updates } : t
+      )
     }));
   };
 
   const deleteDemoTransaction = (id) => {
     setDemoData(prev => ({
       ...prev,
-      transactions: prev.transactions.filter(t => t.id !== id)
+      transactions: prev.transactions.filter(t => t.id !== id && t._id !== id)
     }));
   };
 
   const addDemoBank = (bank) => {
     setDemoData(prev => ({
       ...prev,
-      banks: [...prev.banks, { ...bank, id: `demo-bank-${Date.now()}` }]
+      banks: [...prev.banks, bank]
     }));
   };
 
   const updateDemoBank = (id, updates) => {
     setDemoData(prev => ({
       ...prev,
-      banks: prev.banks.map(b => b.id === id ? { ...b, ...updates } : b)
+      banks: prev.banks.map(b => (b.id === id || b._id === id) ? { ...b, ...updates } : b)
     }));
   };
 
   const deleteDemoBank = (id) => {
     setDemoData(prev => ({
       ...prev,
-      banks: prev.banks.filter(b => b.id !== id)
+      banks: prev.banks.filter(b => b.id !== id && b._id !== id)
     }));
   };
 
   const addDemoNotification = (notification) => {
     setDemoData(prev => ({
       ...prev,
-      notifications: [...prev.notifications, { ...notification, id: `demo-notif-${Date.now()}` }]
+      notifications: [...prev.notifications, notification]
     }));
   };
 

@@ -184,7 +184,16 @@ function Sell() {
     try {
       // If in demo mode, add to demo data
       if (isDemoMode) {
-        addDemoTransaction({ ...formData, type: 'sell', createdAt: new Date().toISOString() });
+        const newTransaction = {
+          ...formData,
+          _id: `demo-${Date.now()}`,
+          type: 'sell',
+          createdAt: new Date().toISOString(),
+          OrderNumber: `ORD-${Date.now()}`,
+          Payments: [],
+          PaymentStatus: formData.PaymentStatus || 'Pending'
+        };
+        addDemoTransaction(newTransaction);
         setSuccess('Sell order created successfully! (Demo Mode)');
         setShowAddModal(false);
         setFormData({

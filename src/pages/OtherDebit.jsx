@@ -211,10 +211,11 @@ function OtherDebit() {
       if (isDemoMode) {
         const newTransaction = {
           ...formData,
-          _id: Date.now().toString(),
+          _id: `demo-${Date.now()}`,
           createdAt: new Date().toISOString(),
-          payments: [],
-          type: 'other-debit'
+          Payments: [],
+          type: 'other-debit',
+          PaymentStatus: formData.PaymentStatus || 'Pending'
         };
         addDemoTransaction(newTransaction);
         setSuccess('Transaction created successfully (Demo Mode)');
