@@ -15,6 +15,13 @@ import Banks from './pages/Banks';
 import OtherCredit from './pages/OtherCredit';
 import OtherDebit from './pages/OtherDebit';
 import NotificationsFixed from './pages/NotificationsFixed';
+import DemoBuy from './pages/demo/DemoBuy';
+import DemoSell from './pages/demo/DemoSell';
+import DemoAccounting from './pages/demo/DemoAccounting';
+import DemoBanks from './pages/demo/DemoBanks';
+import DemoOtherCredit from './pages/demo/DemoOtherCredit';
+import DemoOtherDebit from './pages/demo/DemoOtherDebit';
+import DemoNotifications from './pages/demo/DemoNotifications';
 import './App.css';
 
 // Main App component that uses auth context
@@ -195,6 +202,15 @@ const AppContent = () => {
               </ProtectedRoute>
             } 
           />
+
+          {/* Demo Routes - Public Access */}
+          <Route path="/demo/buy" element={<DemoBuy />} />
+          <Route path="/demo/sell" element={<DemoSell />} />
+          <Route path="/demo/accounting" element={<DemoAccounting />} />
+          <Route path="/demo/banks" element={<DemoBanks />} />
+          <Route path="/demo/other-credit" element={<DemoOtherCredit />} />
+          <Route path="/demo/other-debit" element={<DemoOtherDebit />} />
+          <Route path="/demo/notifications" element={<DemoNotifications />} />
         </Routes>
       </main>
       <Footer />
@@ -202,17 +218,17 @@ const AppContent = () => {
   );
 };
 
-// Main App wrapper with AuthProvider and NotificationProvider
+// Main App wrapper with AuthProvider, NotificationProvider, and DemoModeProvider
 function App() {
   return (
     <AuthProvider>
-      <DemoModeProvider>
-        <NotificationProvider>
+      <NotificationProvider>
+        <DemoModeProvider>
           <Router>
             <AppContent />
           </Router>
-        </NotificationProvider>
-      </DemoModeProvider>
+        </DemoModeProvider>
+      </NotificationProvider>
     </AuthProvider>
   );
 }
