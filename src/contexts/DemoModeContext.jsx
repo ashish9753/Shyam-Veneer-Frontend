@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const DemoModeContext = createContext();
 
@@ -20,8 +20,55 @@ export const DemoModeProvider = ({ children }) => {
     balance: { totalBalance: 0, cashBalance: 0, bankBalance: 0 }
   });
 
-  // NOTE: Demo data is kept in memory only - will be lost on page refresh
-  // This ensures demo mode is truly temporary and doesn't persist data
+  // 10-minute session timeout
+  const SESSION_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
+
+  // Initialize demo mode from sessionStorage on mount (with 10-min expiration check)
+  useEffect(() => {
+    const savedDemoMode = sessionStorage.getItem('isDemoMode');
+    const savedTimestamp = sessionStorage.getItem('demoModeTimestamp');
+    
+    if (savedDemoMode === 'true' && savedTimestamp) {
+      const timeElapsed = Date.now() - parseInt(savedTimestamp);
+      
+      // Check if session is still valid (within 10 minutes)
+      if (timeElapsed < SESSION_TIMEOUT) {
+        setIsDemoMode(true);
+        const savedDemoData = sessionStorage.getItem('demoData');
+        if (savedDemoData) {
+          try {
+            setDemoData(JSON.parse(savedDemoData));
+          } catch (error) {
+            console.error('Error parsing demo data:', error);
+          }
+        }
+      } else {
+        // Session expired, clear storage
+        sessionStorage.removeItem('isDemoMode');
+        sessionStorage.removeItem('demoModeTimestamp');
+        sessionStorage.removeItem('demoData');
+      }
+    }
+  }, []);
+
+  // Save demo mode state to sessionStorage whenever it changes
+  useEffect(() => {
+    if (isDemoMode) {
+      sessionStorage.setItem('isDemoMode', 'true');
+      sessionStorage.setItem('demoModeTimestamp', Date.now().toString());
+    } else {
+      sessionStorage.removeItem('isDemoMode');
+      sessionStorage.removeItem('demoModeTimestamp');
+      sessionStorage.removeItem('demoData');
+    }
+  }, [isDemoMode]);
+
+  // Save demo data to sessionStorage whenever it changes
+  useEffect(() => {
+    if (isDemoMode) {
+      sessionStorage.setItem('demoData', JSON.stringify(demoData));
+    }
+  }, [demoData, isDemoMode]);
 
   const enterDemoMode = () => {
     setIsDemoMode(true);
@@ -145,6 +192,9 @@ export const DemoModeProvider = ({ children }) => {
       notifications: [],
       balance: { totalBalance: 0, cashBalance: 0, bankBalance: 0 }
     });
+    sessionStorage.removeItem('isDemoMode');
+    sessionStorage.removeItem('demoModeTimestamp');
+    sessionStorage.removeItem('demoData');
   };
 
   // Helper functions to manipulate demo data
