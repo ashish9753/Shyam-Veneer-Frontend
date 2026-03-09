@@ -11,56 +11,67 @@ export const useDemoMode = () => {
 };
 
 export const DemoModeProvider = ({ children }) => {
-  const [isDemoMode, setIsDemoMode] = useState(false);
-  const [demoData, setDemoData] = useState({
-    transactions: [],
-    banks: [],
-    accounts: [],
-    notifications: [],
-    balance: { totalBalance: 0, cashBalance: 0, bankBalance: 0 }
-  });
-
   // 10-minute session timeout
   const SESSION_TIMEOUT = 10 * 60 * 1000; // 10 minutes in milliseconds
-
-  // Initialize demo mode from sessionStorage on mount (with 10-min expiration check)
-  useEffect(() => {
+  
+  // Initialize demo mode state directly from sessionStorage to prevent race condition
+  const [isDemoMode, setIsDemoMode] = useState(() => {
     const savedDemoMode = sessionStorage.getItem('isDemoMode');
     const savedTimestamp = sessionStorage.getItem('demoModeTimestamp');
     
     if (savedDemoMode === 'true' && savedTimestamp) {
       const timeElapsed = Date.now() - parseInt(savedTimestamp);
-      
       // Check if session is still valid (within 10 minutes)
       if (timeElapsed < SESSION_TIMEOUT) {
-        setIsDemoMode(true);
-        const savedDemoData = sessionStorage.getItem('demoData');
-        if (savedDemoData) {
-          try {
-            setDemoData(JSON.parse(savedDemoData));
-          } catch (error) {
-            console.error('Error parsing demo data:', error);
-          }
-        }
+        return true;
       } else {
         // Session expired, clear storage
         sessionStorage.removeItem('isDemoMode');
         sessionStorage.removeItem('demoModeTimestamp');
         sessionStorage.removeItem('demoData');
+        return false;
       }
     }
-  }, []);
+    return false;
+  });
+  
+  const [demoData, setDemoData] = useState(() => {
+    // Initialize demo data from sessionStorage if in demo mode
+    const savedDemoMode = sessionStorage.getItem('isDemoMode');
+    const savedTimestamp = sessionStorage.getItem('demoModeTimestamp');
+    
+    if (savedDemoMode === 'true' && savedTimestamp) {
+      const timeElapsed = Date.now() - parseInt(savedTimestamp);
+      if (timeElapsed < SESSION_TIMEOUT) {
+        const savedDemoData = sessionStorage.getItem('demoData');
+        if (savedDemoData) {
+          try {
+            return JSON.parse(savedDemoData);
+          } catch (error) {
+            console.error('Error parsing demo data:', error);
+          }
+        }
+      }
+    }
+    
+    return {
+      transactions: [],
+      banks: [],
+      accounts: [],
+      notifications: [],
+      balance: { totalBalance: 0, cashBalance: 0, bankBalance: 0 }
+    };
+  });
 
-  // Save demo mode state to sessionStorage whenever it changes
+  // Save demo mode state changes (but don't overwrite timestamp on restore)
   useEffect(() => {
-    if (isDemoMode) {
-      sessionStorage.setItem('isDemoMode', 'true');
-      sessionStorage.setItem('demoModeTimestamp', Date.now().toString());
-    } else {
+    if (!isDemoMode) {
+      // Exiting demo mode - clear everything
       sessionStorage.removeItem('isDemoMode');
       sessionStorage.removeItem('demoModeTimestamp');
       sessionStorage.removeItem('demoData');
     }
+    // Note: When entering demo mode, timestamp is set in enterDemoMode()
   }, [isDemoMode]);
 
   // Save demo data to sessionStorage whenever it changes
@@ -72,6 +83,10 @@ export const DemoModeProvider = ({ children }) => {
 
   const enterDemoMode = () => {
     setIsDemoMode(true);
+    // Set timestamp when actively entering demo mode
+    sessionStorage.setItem('isDemoMode', 'true');
+    sessionStorage.setItem('demoModeTimestamp', Date.now().toString());
+    
     // Initialize with realistic sample data
     const now = new Date();
     const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
