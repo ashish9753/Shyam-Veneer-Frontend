@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { DemoModeProvider } from './contexts/DemoModeContext';
 import Header from './components/Header';
 import SessionManager from './components/SessionManager';
 import Footer from './components/Footer';
@@ -205,11 +206,13 @@ const AppContent = () => {
 function App() {
   return (
     <AuthProvider>
-      <NotificationProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </NotificationProvider>
+      <DemoModeProvider>
+        <NotificationProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </NotificationProvider>
+      </DemoModeProvider>
     </AuthProvider>
   );
 }

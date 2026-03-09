@@ -1,9 +1,11 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useDemoMode } from '../contexts/DemoModeContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { isAuthenticated, isAdmin, loading, user } = useAuth();
+  const { isDemoMode } = useDemoMode();
 
   if (loading) {
     return <LoadingSpinner />;
@@ -24,8 +26,8 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     );
   }
 
-  // If route requires admin access but user is not admin
-  if (adminOnly && !isAdmin()) {
+  // If route requires admin access but user is not admin and not in demo mode
+  if (adminOnly && !isAdmin() && !isDemoMode) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="bg-white p-8 rounded-lg shadow-md text-center">
@@ -41,6 +43,9 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
               <strong>Role:</strong> {isAdmin() ? 'Administrator' : 'Regular User'}
             </p>
           </div>
+          <p className="text-gray-500 mt-4 text-sm">
+            Tip: Try using Demo Mode to explore admin features!
+          </p>
         </div>
       </div>
     );

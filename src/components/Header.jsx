@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
+import { useDemoMode } from '../contexts/DemoModeContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,12 +10,14 @@ const Header = () => {
   const location = useLocation();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const { unreadCount, connectionError } = useNotifications();
+  const { isDemoMode, enterDemoMode, exitDemoMode } = useDemoMode();
 
   // Define navigation based on user role
   const getNavigation = () => {
     const baseNavigation = [{ name: 'Home', href: '/' }];
     
-    if (isAuthenticated() && isAdmin()) {
+    // Show admin pages if user is admin OR in demo mode
+    if (isAuthenticated() && (isAdmin() || isDemoMode)) {
       return [
         ...baseNavigation,
         { name: 'Accounting', href: '/accounting' },
@@ -39,6 +42,18 @@ const Header = () => {
 
   return (
     <header className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 shadow-2xl">
+      {/* Demo Mode Banner */}
+      {isDemoMode && (
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 text-center">
+          <div className="flex items-center justify-center space-x-2">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span className="font-bold">DEMO MODE - Changes are not saved to the database</span>
+          </div>
+        </div>
+      )}
+      
       {/* Main Navigation */}
       <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 border-b-4 border-amber-600">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -93,7 +108,7 @@ const Header = () => {
                 ))}
                 
                 {/* Transactions Dropdown */}
-                {isAuthenticated() && isAdmin() && (
+                {isAuthenticated() && (isAdmin() || isDemoMode) && (
                   <div className="relative">
                     <button
                       onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
@@ -139,6 +154,27 @@ const Header = () => {
               {/* User Info & Logout */}
               {isAuthenticated() ? (
                 <div className="flex items-center space-x-4">
+                  {/* Demo Mode Controls */}
+                  {!isAdmin() && (
+                    <>
+                      {!isDemoMode ? (
+                        <button
+                          onClick={enterDemoMode}
+                          className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-blue-500"
+                        >
+                          Try Demo Admin
+                        </button>
+                      ) : (
+                        <button
+                          onClick={exitDemoMode}
+                          className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-orange-500"
+                        >
+                          Exit Demo Mode
+                        </button>
+                      )}
+                    </>
+                  )}
+                  
                   <div className="flex items-center space-x-2 bg-amber-800 px-4 py-2 rounded-xl border-2 border-amber-600 shadow-lg">
                     <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-xl border-2 border-amber-300">
                       <span className="text-white text-sm font-bold">
@@ -148,7 +184,7 @@ const Header = () => {
                     <div className="text-sm">
                       <p className="font-bold text-white">{user?.fullName}</p>
                       <p className="text-amber-200 font-semibold">
-                        {isAdmin() ? 'Administrator' : 'User'}
+                        {isDemoMode ? 'Demo Admin' : (isAdmin() ? 'Administrator' : 'User')}
                       </p>
                     </div>
                   </div>
@@ -226,7 +262,7 @@ const Header = () => {
             ))}
             
             {/* Transactions Section for Mobile */}
-            {isAuthenticated() && isAdmin() && (
+            {isAuthenticated() && (isAdmin() || isDemoMode) && (
               <div>
                 <button
                   onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
@@ -264,6 +300,33 @@ const Header = () => {
                       </Link>
                     ))}
                   </div>
+                )}
+              </div>
+            )}
+            
+            {/* Demo Mode Controls for Mobile */}
+            {isAuthenticated() && !isAdmin() && (
+              <div className="pt-4 border-t-2 border-amber-600 mt-4">
+                {!isDemoMode ? (
+                  <button
+                    onClick={() => {
+                      enterDemoMode();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full px-4 py-3 text-base font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 rounded-xl shadow-xl transition-all border-2 border-blue-500"
+                  >
+                    Try Demo Admin Mode
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      exitDemoMode();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full px-4 py-3 text-base font-bold text-white bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 rounded-xl shadow-xl transition-all border-2 border-orange-500"
+                  >
+                    Exit Demo Mode
+                  </button>
                 )}
               </div>
             )}
