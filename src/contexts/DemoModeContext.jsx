@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const DemoModeContext = createContext();
 
@@ -20,36 +20,8 @@ export const DemoModeProvider = ({ children }) => {
     balance: { totalBalance: 0, cashBalance: 0, bankBalance: 0 }
   });
 
-  // Initialize demo mode from sessionStorage on mount
-  useEffect(() => {
-    const savedDemoMode = sessionStorage.getItem('isDemoMode');
-    if (savedDemoMode === 'true') {
-      setIsDemoMode(true);
-      const savedDemoData = sessionStorage.getItem('demoData');
-      if (savedDemoData) {
-        try {
-          setDemoData(JSON.parse(savedDemoData));
-        } catch (error) {
-          console.error('Error parsing demo data:', error);
-        }
-      }
-    }
-  }, []);
-
-  // Save demo mode state to sessionStorage whenever it changes
-  useEffect(() => {
-    sessionStorage.setItem('isDemoMode', isDemoMode.toString());
-    if (!isDemoMode) {
-      sessionStorage.removeItem('demoData');
-    }
-  }, [isDemoMode]);
-
-  // Save demo data to sessionStorage whenever it changes
-  useEffect(() => {
-    if (isDemoMode) {
-      sessionStorage.setItem('demoData', JSON.stringify(demoData));
-    }
-  }, [demoData, isDemoMode]);
+  // NOTE: Demo data is kept in memory only - will be lost on page refresh
+  // This ensures demo mode is truly temporary and doesn't persist data
 
   const enterDemoMode = () => {
     setIsDemoMode(true);
@@ -173,7 +145,6 @@ export const DemoModeProvider = ({ children }) => {
       notifications: [],
       balance: { totalBalance: 0, cashBalance: 0, bankBalance: 0 }
     });
-    sessionStorage.removeItem('demoData');
   };
 
   // Helper functions to manipulate demo data
